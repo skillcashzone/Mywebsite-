@@ -3,78 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Photo Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>LensCraft Studio | Professional Portfolio</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #1a1a1a;
+            --accent: #ff3e3e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.90);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.9rem 2.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3);
+        }
+
+        .btn:hover {
+            background: #e03232;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 62, 62, 0.5);
+        }
+
+        /* --- PORTFOLIO GALLERY --- */
+        .portfolio {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 12px auto 0;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid #333;
+            padding: 0.6rem 1.8rem;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(255, 62, 62, 0.2);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 280px;
+            cursor: pointer;
+            background: var(--bg-card);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.7);
+        }
+
+        /* --- LIGHTBOX (FULL VIEW) --- */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+        }
+
+        .lightbox-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 2rem;
+            background: #161616;
+            padding: 0.8rem 2.5rem;
+            border-radius: 40px;
+            border: 1px solid #222;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .action-btn:hover { color: var(--accent); }
+        .action-btn.liked { color: #ff2a2a; font-weight: bold; transform: scale(1.05); }
+
+        .close-lightbox {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .close-lightbox:hover { color: white; }
+
+        /* --- CONTACT SECTION --- */
+        .contact {
+            background: var(--bg-secondary);
+            padding: 6rem 2rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--bg-primary);
+            border: 1px solid #252525;
+            color: white;
+            border-radius: 6px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(255, 62, 62, 0.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            background: var(--bg-primary);
+            border-top: 1px solid #121212;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.8rem; }
+            .lightbox-actions { gap: 1rem; padding: 0.8rem 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
-        <div class="logo">MyGallery</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#about">About</a>
+        <nav class="navbar">
+            <div class="logo">Lens<span>Craft</span></div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to My Photo Portfolio</h1>
-            <p>Capturing moments, sharing memories.</p>
-            <a href="#gallery" class="btn">View Gallery</a>
+    <section class="hero">
+        <h1>Visual Stories</h1>
+        <p>Premium high-end photography capturing timeless emotions, breathtaking landscapes, and elite portraits.</p>
+        <a href="#portfolio" class="btn">Explore Gallery</a>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <h2 class="section-title">Portfolio Gallery</h2>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Collection</button>
+            <button class="filter-btn" data-filter="portrait">Portraits</button>
+            <button class="filter-btn" data-filter="landscape">Landscapes</button>
+            <button class="filter-btn" data-filter="wedding">Weddings</button>
+        </div>
+
+        <div class="gallery">
+            <div class="gallery-item" data-category="portrait" data-id="Portrait_Studio_01">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Classic Portrait">
+            </div>
+            <div class="gallery-item" data-category="landscape" data-id="Mountain_Wild_01">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Alpine Landscape">
+            </div>
+            <div class="gallery-item" data-category="wedding" data-id="Wedding_Classic_01">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Bridal Concept">
+            </div>
+            <div class="gallery-item" data-category="portrait" data-id="Portrait_Studio_02">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Male Editorial Portrait">
+            </div>
+            <div class="gallery-item" data-category="landscape" data-id="Forest_Deep_02">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" alt="Sunbeam Forest">
+            </div>
+            <div class="gallery-item" data-category="wedding" data-id="Wedding_Moment_02">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Reception Dance">
+            </div>
         </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery-section">
-        <h2>My Photos</h2>
-        <div class="gallery-grid">
-            <!-- Photo 1 -->
-            <div class="gallery-item">
-                <img src="https://raw.githubusercontent.com/skillcashzone/Mywebsite-/refs/heads/main/IMG_0490.jpeg" alt="Photo 1" class="portfolio-img">
-                <div class="overlay"><span>Nature</span></div>
-                  <div class="overlay-text">Project Title Here</div>
+    <section class="contact" id="contact">
+        <h2 class="section-title">Let's Connect</h2>
+        <form class="contact-form" action="https://formsubmit.co/skillcashzone@gmail.com" method="POST">
+            <div class="form-group">
+                <input type="text" name="Name" placeholder="Your Full Name" required>
             </div>
-            <!-- Photo 2 -->
-            <div class="gallery-item">
-                <img src="https://placeholder.com" alt="Photo 2" class="portfolio-img">
-                <div class="overlay"><span>Travel</span></div>
-                  <div class="overlay-text">Project Title Here</div>
+            <div class="form-group">
+                <input type="email" name="Email" placeholder="Your Email Address" required>
             </div>
-            <!-- Photo 3 -->
-            <div class="gallery-item">
-                <img src="https://placeholder.com" alt="Photo 3" class="portfolio-img">
-                <div class="overlay"><span>Portrait</span></div>
-                  <div class="overlay-text">Project Title Here</div>
+            <div class="form-group">
+                <textarea name="Message" rows="5" placeholder="Describe your project or event details..." required></textarea>
             </div>
-            <!-- Photo 4 -->
-            <div class="gallery-item">
-                <img src="https://placeholder.com" alt="Photo 4" class="portfolio-img">
-                <div class="overlay"><span>Street</span></div>
-                  <div class="overlay-text">Project Title Here</div>
-            </div>
-        </div>
+            <button type="submit" class="btn">Send Inquiry</button>
+        </form>
     </section>
 
-    <!-- Lightbox Modal (For Preview) -->
-    <div id="lightbox" class="lightbox">
-        <span class="close-btn">&times;</span>
-        <img class="lightbox-img" id="lightbox-img" src="" alt="Preview">
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="close-lightbox" id="closeBtn">&times;</button>
+            <img src="" alt="Dynamic Full View" class="lightbox-img" id="lightboxImg">
+            
+            <div class="lightbox-actions">
+                <button class="action-btn" id="likeBtn">❤️ Like</button>
+                <a href="" download="LensCraft_Masterpiece.jpg" class="action-btn" id="downloadBtn">📥 Download</a>
+                <button class="action-btn" id="shareBtn">🔗 Share Link</button>
+            </div>
+        </div>
     </div>
 
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <h2>About Me</h2>
-        <p>Hello! I am a passionate photographer. I love capturing the beauty of the world through my camera lens.</p>
-    </section>
+    <div style="display: none;">
+        <form id="hiddenLikeForm" action="https://formsubmit.co/skillcashzone@gmail.com" method="POST" target="silentIframe">
+            <input type="hidden" name="_subject" value="❤️ New Portfolio Image Like Received!">
+            <input type="hidden" name="Liked_Image_ID" id="formImageId">
+            <input type="hidden" name="Image_Source_URL" id="formImageUrl">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="">
+        </form>
+        <iframe name="silentIframe" id="silentIframe"></iframe>
+    </div>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 My Gallery. All Rights Reserved.</p>
+        <p>&copy; 2026 LensCraft Studio. All rights reserved. Built with Precision.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // --- 1. PORTFOLIO FILTERING SYSTEM ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const targetFilter = button.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (targetFilter === 'all' || item.getAttribute('data-category') === targetFilter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // --- 2. LIGHTBOX INTERACTIVITY CORE ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeBtn = document.getElementById('closeBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const likeBtn = document.getElementById('likeBtn');
+
+        const hiddenForm = document.getElementById('hiddenLikeForm');
+        const formImageId = document.getElementById('formImageId');
+        const formImageUrl = document.getElementById('formImageUrl');
+
+        let activeImgId = "";
+        let activeImgSrc = "";
+
+        // Open Full View Control
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const embeddedImg = item.querySelector('img');
+                activeImgSrc = embeddedImg.src;
+                activeImgId = item.getAttribute('data-id');
+
+                lightboxImg.src = activeImgSrc;
+                downloadBtn.href = activeImgSrc; 
+                
+                // Reset State configurations
+                likeBtn.classList.remove('liked');
+                likeBtn.innerHTML = "❤️ Like";
+
+                lightbox.classList.add('active');
+            });
+        });
+
+        // Close Control Operations
+        const closeLightboxView = () => lightbox.classList.remove('active');
+        closeBtn.addEventListener('click', closeLightboxView);
+        lightbox.addEventListener('click', (e) => {
+            if(e.target === lightbox) closeLightboxView();
+        });
+
+        // --- 3. SILENT SUBMISSION (LIKE OPERATIONS) ---
+        likeBtn.addEventListener('click', () => {
+            if(!likeBtn.classList.contains('liked')) {
+                likeBtn.classList.add('liked');
+                likeBtn.innerHTML = "💖 Liked";
+
+                // Form Payload Mapping
+                formImageId.value = activeImgId;
+                formImageUrl.value = activeImgSrc;
+
+                // Execution without altering viewport view
+                hiddenForm.submit();
+            }
+        });
+
+        // --- 4. CLIPBOARD SHARING MANAGEMENT ---
+        shareBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(activeImgSrc).then(() => {
+                alert('Direct Asset URL copied to clipboard! You can now share it.');
+            }).catch(() => {
+                alert('Permissions denied. Unable to copy asset path.');
+            });
+        });
+    </script>
 </body>
 </html>
