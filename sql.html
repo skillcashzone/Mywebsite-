@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLi Cheat Sheet Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --border: #334155;
+            --code-bg: #020617;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent);
+        }
+
+        .table-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #111827;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        code {
+            display: block;
+            background-color: var(--code-bg);
+            padding: 0.75rem;
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background-color: var(--border);
+            color: var(--text-main);
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent);
+            color: var(--bg-color);
+        }
+
+        .copied {
+            background-color: var(--success) !important;
+            color: white !important;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            th, td { padding: 0.75rem; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr { margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); }
+            td { border-bottom: none; position: relative; padding-left: 50%; }
+            td::before { content: attr(data-label); position: absolute; left: 1rem; font-weight: bold; color: var(--accent); }
+            code { margin-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 id="title">SQL Injection Cheat Sheet</h1>
+        <p>Active Payloads Dashboard for Bug Bounty and Security Testing</p>
+    </header>
+
+    <div class="controls">
+        <input type="text" id="searchBar" class="search-box" placeholder="Search payloads, categories, or descriptions...">
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%">ID</th>
+                    <th style="width: 15%">Category</th>
+                    <th style="width: 45%">Payload</th>
+                    <th style="width: 25%">Description</th>
+                    <th style="width: 10%">Action</th>
+                </tr>
+            </thead>
+            <tbody id="payloadTableBody">
+                <!-- Data loaded dynamically via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let allPayloads = [];
+
+    // Function to load the JSON file
+    async function loadPayloads() {
+        try {
+            // Assumes payload.json is in the same directory
+            const response = await fetch('payload.json');
+            const data = await response.json();
+            
+            if(data.title) document.getElementById('title').innerText = data.title;
+            
+            allPayloads = data.cheat_sheet || [];
+            renderTable(allPayloads);
+        } catch (error) {
+            console.error("Error loading JSON file:", error);
+            document.getElementById('payloadTableBody').innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align:center; color:#ef4444; padding: 2rem;">
+                        <b>Error:</b> payload.json could not be loaded. Please ensure the file exists in this directory.
+                    </td>
+                </tr>`;
+        }
+    }
+
+    // Function to render data into the table
+    function renderTable(payloads) {
+        const tbody = document.getElementById('payloadTableBody');
+        tbody.innerHTML = '';
+
+        if(payloads.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No matching payloads found.</td></tr>`;
+            return;
+        }
+
+        payloads.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td data-label="ID">${item.id}</td>
+                <td data-label="Category"><span class="badge">${item.category}</span></td>
+                <td data-label="Payload"><code>${escapeHtml(item.payload)}</code></td>
+                <td data-label="Description" style="color: var(--text-muted); font-size: 0.9rem;">${item.description}</td>
+                <td data-label="Action">
+                    <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(item.payload)}', this)">Copy</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Escape HTML characters to prevent rendering issues or breaking the code layout
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // Function to copy text directly to clipboard
+    function copyToClipboard(text, button) {
+        const doc = new DOMParser().parseFromString(text, "text/html");
+        const cleanText = doc.documentElement.textContent;
+
+        navigator.clipboard.writeText(cleanText).then(() => {
+            button.innerText = 'Copied!';
+            button.classList.add('copied');
+            setTimeout(() => {
+                button.innerText = 'Copy';
+                button.classList.remove('copied');
+            }, 1500);
+        }).catch(err => {
+            console.error('Failed to copy text:', err);
+        });
+    }
+
+    // Search bar filtration logic
+    document.getElementById('searchBar').addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filtered = allPayloads.filter(item => {
+            return item.payload.toLowerCase().includes(searchTerm) || 
+                   item.category.toLowerCase().includes(searchTerm) || 
+                   item.description.toLowerCase().includes(searchTerm);
+        });
+        renderTable(filtered);
+    });
+
+    // Run the load function on window load
+    window.onload = loadPayloads;
+</script>
+
+</body>
+</html>
