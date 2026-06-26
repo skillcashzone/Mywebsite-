@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK Photography Portfolio</title>
+    
+    <!-- All CSS Styling Inside One File -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+
+        header p {
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #aaa;
+            padding: 8px 20px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #ffffff;
+            color: #121212;
+            border-color: #ffffff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 4/3;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background-color: #222; /* Placeholder color while loading */
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .item-overlay {
+            opacity: 1;
+        }
+
+        .item-overlay h3 {
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .item-overlay p {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 12px;
+        }
+
+        .item-overlay span {
+            font-size: 0.75rem;
+            background: #444;
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #555;
+            font-size: 0.85rem;
+        }
+        
+        .error-msg {
+            text-align: center;
+            color: #ff6b6b;
+            grid-column: 1 / -1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AK PHOTOGRAPHY</h1>
+        <p>Capturing moments through the lens</p>
+    </header>
+
+    <main>
+        <!-- Category Filter Buttons -->
+        <div class="filters">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="Landscape">Landscape</button>
+            <button class="filter-btn" data-category="Street">Street</button>
+            <button class="filter-btn" data-category="Nature">Nature</button>
+        </div>
+
+        <!-- The Photo Grid Gallery -->
+        <div class="gallery-grid" id="galleryGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Loading gallery...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AK Photography. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript to Fetch and Render data.json -->
+    <script>
+        const grid = document.getElementById('galleryGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let allPhotos = [];
+
+        // Fetch data from local data.json file
+        async function loadGalleryData() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('Could not find or fetch data.json');
+                }
+                allPhotos = await response.json();
+                displayGallery(allPhotos);
+            } catch (error) {
+                console.error(error);
+                grid.innerHTML = `<p class="error-msg">Error: Make sure you run this code on a local server (like Live Server in VS Code) for data.json to load successfully.</p>`;
+            }
+        }
+
+        // Generate HTML structure for elements
+        function displayGallery(items) {
+            if(items.length === 0) {
+                grid.innerHTML = `<p style="text-align: center; grid-column: 1/-1;">No photos found in this category.</p>`;
+                return;
+            }
+            
+            grid.innerHTML = items.map(item => `
+                <div class="gallery-item">
+                    <img src="${item.src}" alt="${item.title}" loading="lazy">
+                    <div class="item-overlay">
+                        <h3>${item.title}</h3>
+                        <p>${item.desc}</p>
+                        <span>${item.category}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Handle category filter clicks
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active state class on buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const category = e.target.dataset.category;
+                if(category === 'all') {
+                    displayGallery(allPhotos);
+                } else {
+                    const filtered = allPhotos.filter(p => p.category === category);
+                    displayGallery(filtered);
+                }
+            });
+        });
+
+        // Run setup on load
+        loadGalleryData();
+    </script>
+</body>
+</html>
