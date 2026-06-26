@@ -228,7 +228,7 @@
         async function loadMatrix() {
             const grid = document.getElementById('displayGrid');
             try {
-                const response = await fetch('payload.json');
+                const response = await fetch('xss.json');
                 if (!response.ok) throw new Error("HTTP error: " + response.status);
                 
                 dataRecords = await response.json();
