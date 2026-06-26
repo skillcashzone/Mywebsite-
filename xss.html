@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Injection Framework Dashboard</title>
+    <style>
+        /* --- CORE DESIGN ARCHITECTURE & TOKENS --- */
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --border-muted: #30363d;
+            --text-main: #c9d1d9;
+            --text-bright: #f0f6fc;
+            --badge-blue: #58a6ff;
+            --badge-red: #ff7b72;
+            --badge-green: #56d364;
+            --badge-purple: #bc8cff;
+            --code-syntax: #ff7b72;
+            --syntax-bg: #090c10;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Top Title Deck */
+        .dashboard-header {
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-heading {
+            color: var(--text-bright);
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-container {
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border-muted);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        /* Search & Navigation Bar */
+        .search-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-field {
+            width: 100%;
+            background-color: var(--syntax-bg);
+            border: 1px solid var(--border-muted);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-field:focus {
+            border-color: var(--badge-blue);
+        }
+
+        /* Data Visualization Table */
+        .grid-wrapper {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-muted);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .responsive-table th {
+            background-color: #1f242c;
+            color: var(--text-bright);
+            font-weight: 600;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-muted);
+            white-space: nowrap;
+        }
+
+        .responsive-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-muted);
+            vertical-align: top;
+        }
+
+        .responsive-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .responsive-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.015);
+        }
+
+        /* Columns Width Distribution */
+        .w-id { width: 70px; font-weight: 700; color: var(--badge-blue); }
+        .w-cat { width: 180px; }
+        .w-pay { width: 420px; }
+
+        /* Structural Badge Engine */
+        .category-tag {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .cat-tag { background: rgba(88, 166, 255, 0.12); color: var(--badge-blue); border: 1px solid rgba(88, 166, 255, 0.25); }
+        .cat-event { background: rgba(255, 123, 114, 0.12); color: var(--badge-red); border: 1px solid rgba(255, 123, 114, 0.25); }
+        .cat-vector { background: rgba(86, 211, 100, 0.12); color: var(--badge-green); border: 1px solid rgba(86, 211, 100, 0.25); }
+        .cat-escape { background: rgba(188, 140, 255, 0.12); color: var(--badge-purple); border: 1px solid rgba(188, 140, 255, 0.25); }
+        .cat-default { background: rgba(240, 246, 252, 0.08); color: var(--text-main); border: 1px solid var(--border-muted); }
+
+        /* Code Rendering Blocks */
+        code {
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+            background-color: var(--syntax-bg);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            color: var(--code-syntax);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: block;
+            white-space: pre-wrap;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .hindi-description {
+            color: #8b949e;
+            font-size: 0.88rem;
+            text-align: justify;
+        }
+
+        /* Information Notices */
+        .fallback-status {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #8b949e;
+        }
+
+        .alert-error {
+            color: var(--badge-red);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="dashboard-header">
+            <h1 class="main-heading" id="titleField">Framework Target Analysis Sheet</h1>
+            <div class="meta-container">
+                <span class="meta-pill"><strong>Engine Mode:</strong> Structural Cross-Context Matrix</span>
+                <span class="meta-pill"><strong>Active Vectors:</strong> <span id="counterField">0</span> Elements Loaded</span>
+            </div>
+        </header>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchFilter" class="search-field" placeholder="जाँचने के लिए श्रेणी, पेलोड सिंटैक्स या हिंदी विवरण खोजें...">
+        </div>
+
+        <main class="grid-wrapper">
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th class="w-id">ID</th>
+                        <th class="w-cat">Category</th>
+                        <th class="w-pay">Syntax Framework</th>
+                        <th>Analytical Hindi Description</th>
+                    </tr>
+                </thead>
+                <tbody id="renderTarget">
+                    <tr>
+                        <td colspan="4" class="fallback-status">Initializing dynamic data streaming channels...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        let rawMatrixData = [];
+
+        // Dynamic JSON fetch system execution pipelines
+        async function fetchLocalMatrix() {
+            const renderTarget = document.getElementById('renderTarget');
+            try {
+                // payload.json ko stream pipeline me register karein
+                const networkResponse = await fetch('xss.json');
+                
+                if (!networkResponse.ok) {
+                    throw new Error(`Execution error context status: ${networkResponse.status}`);
+                }
+                
+                const parseBuffer = await networkResponse.json();
+                rawMatrixData = parseBuffer;
+                
+                // Counter fields verification injection
+                document.getElementById('counterField').innerText = rawMatrixData.length;
+                evaluateDOMState(rawMatrixData);
+
+            } catch (systemException) {
+                console.error("Critical stream breakdown:", systemException);
+                renderTarget.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="fallback-status alert-error">
+                            <strong>सिस्टम त्रुटि (Data Load Error):</strong> 'payload.json' फ़ाइल लोड नहीं हो सकी। सुनिश्चित करें कि फ़ाइल का नाम सही है और आप इसे किसी Local Server (जैसे VS Code Live Server) पर चला रहे हैं।
+                        </td>
+                    </tr>`;
+            }
+        }
+
+        // Mapping validation engine logic groups directly to corresponding CSS class structures
+        function assignStructuralToken(categoryString) {
+            const normalNormalized = categoryString.toLowerCase();
+            if (normalNormalized.includes('tag')) return 'cat-tag';
+            if (normalNormalized.includes('event')) return 'cat-event';
+            if (normalNormalized.includes('vector') || normalNormalized.includes('iframe')) return 'cat-vector';
+            if (normalNormalized.includes('escape') || normalNormalized.includes('evasion') || normalNormalized.includes('obfuscation')) return 'cat-escape';
+            return 'cat-default';
+        }
+
+        // Primary execution algorithm to clean, format and append structural code modules to DOM grid
+        function evaluateDOMState(dataCollection) {
+            const renderTarget = document.getElementById('renderTarget');
+            
+            if (dataCollection.length === 0) {
+                renderTarget.innerHTML = `<tr><td colspan="4" class="fallback-status">खोजे गए कीवर्ड के लिए कोई संरचना नहीं मिली।</td></tr>`;
+                return;
+            }
+
+            renderTarget.innerHTML = dataCollection.map(record => `
+                <tr>
+                    <td class="w-id">${record.id}</td>
+                    <td class="w-cat"><span class="category-tag ${assignStructuralToken(record.category)}">${record.category}</span></td>
+                    <td class="w-pay"><code>${escapeMetaTokens(record.payload)}</code></td>
+                    <td class="hindi-description">${escapeMetaTokens(record.description)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Sanitization Layer: Prevents raw string evaluation issues over input sinks
+        function escapeMetaTokens(rawString) {
+            return rawString.replace(/[&<>'"]/g, 
+                entityKey => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[entityKey] || entityKey)
+            );
+        }
+
+        // Event monitoring loop tracking multi-parameter target adjustments
+        document.getElementById('searchFilter').addEventListener('input', (eventState) => {
+            const userFilterQuery = eventState.target.value.toLowerCase();
+            
+            const processedResultSet = rawMatrixData.filter(record => 
+                record.category.toLowerCase().includes(userFilterQuery) || 
+                record.payload.toLowerCase().includes(userFilterQuery) || 
+                record.description.toLowerCase().includes(userFilterQuery)
+            );
+            
+            evaluateDOMState(processedResultSet);
+        });
+
+        // Initialize execution stack safely when structural tree components render complete
+        window.addEventListener('DOMContentLoaded', fetchLocalMatrix);
+    </script>
+</body>
+</html>
