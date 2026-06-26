@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Control Matrix Dashboard</title>
+    <style>
+        /* --- INTEGRATED CORE TOKENS --- */
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --border-muted: #30363d;
+            --text-main: #c9d1d9;
+            --text-bright: #f0f6fc;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --syntax-bg: #090c10;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 1.5rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- DYNAMIC HEADER NAVIGATION --- */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.75rem;
+            border-bottom: 1px solid var(--border-muted);
+        }
+
+        .header-main {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .header-main h1 {
+            color: var(--text-bright);
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-top: 0.35rem;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            color: var(--text-bright);
+            background-color: #21262d;
+        }
+
+        .nav-link.active {
+            color: var(--accent-blue);
+            background-color: rgba(88, 166, 255, 0.1);
+            border-color: rgba(88, 166, 255, 0.25);
+        }
+
+        /* --- SEARCH FILTER BAR --- */
+        .search-box {
+            width: 100%;
+            background-color: var(--syntax-bg);
+            border: 1px solid var(--border-muted);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* --- RESPONSIVE CARD CORE GRID --- */
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .data-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-muted);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: grid;
+            grid-template-columns: 50px 220px 1fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        .card-id {
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+
+        .card-cat {
+            font-size: 0.78rem;
+            font-weight: 600;
+            background: rgba(88, 166, 255, 0.08);
+            color: var(--accent-blue);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        /* --- CODE & COPY CONTROLLER --- */
+        .code-block-wrapper {
+            position: relative;
+            background-color: var(--syntax-bg);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            padding: 1rem 4.5rem 1rem 1rem;
+            color: #ff7b72;
+            display: block;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            background-color: #21262d;
+            border: 1px solid var(--border-muted);
+            color: var(--text-main);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+            color: var(--text-bright);
+        }
+
+        .copy-btn.success {
+            background-color: rgba(56, 185, 80, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .description-text {
+            font-size: 0.9rem;
+            color: #8b949e;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 4rem;
+            color: #8b949e;
+            font-size: 1rem;
+        }
+
+        /* --- BREAKPOINT ENGINE --- */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-nav {
+                width: 100%;
+            }
+            
+            .nav-link {
+                flex: 1;
+                text-align: center;
+                font-size: 0.78rem;
+                padding: 0.5rem 0.25rem;
+            }
+
+            .data-card {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+            
+            .card-id {
+                border-bottom: 1px solid var(--border-muted);
+                padding-bottom: 0.25rem;
+            }
+
+            .card-cat {
+                align-self: start;
+            }
+            
+            code {
+                padding: 1rem 1rem 3.5rem 1rem;
+            }
+
+            .copy-btn {
+                top: auto;
+                bottom: 0.5rem;
+                right: 0.5rem;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="dashboard-header">
+            <div class="header-main">
+                <h1>Framework Dashboard</h1>
+                <div class="meta-info" id="countLabel">Loading nodes...</div>
+            </div>
+            <nav class="header-nav">
+                <div class="nav-link active" onclick="filterByTab('all', this)">All Layers</div>
+                <div class="nav-link" onclick="filterByTab('Verification', this)">Verification</div>
+                <div class="nav-link" onclick="filterByTab('Retrieval', this)">Retrieval</div>
+                <div class="nav-link" onclick="filterByTab('Evasion', this)">Evasion</div>
+            </nav>
+        </header>
+
+        <input type="text" id="searchInput" class="search-box" placeholder="Category, clean syntax code ya hindi validation description dhundhein...">
+
+        <main class="grid-container" id="displayGrid">
+            <div class="status-message">Initializing data pipeline logic...</div>
+        </main>
+    </div>
+
+    <script>
+        let dataRecords = [];
+
+        // Data pipeline handler linked to payload.json
+        async function loadMatrix() {
+            const grid = document.getElementById('displayGrid');
+            try {
+                const response = await fetch('payload1.json');
+                if (!response.ok) throw new Error("HTTP Status Broken: " + response.status);
+                
+                dataRecords = await response.json();
+                document.getElementById('countLabel').innerText = `${dataRecords.length} System Vectors Instantiated`;
+                renderGrid(dataRecords);
+            } catch (err) {
+                grid.innerHTML = `<div class="status-message" style="color:#ff7b72;"><b>System Error:</b> 'payload.json' fetch fail. Apne code folder ko VS Code Live Server par hi kholkar check karein.</div>`;
+            }
+        }
+
+        // Structural UI loop builder
+        function renderGrid(dataset) {
+            const grid = document.getElementById('displayGrid');
+            if(dataset.length === 0) {
+                grid.innerHTML = `<div class="status-message">Is selection pattern ke liye koi index nahi mila.</div>`;
+                return;
+            }
+
+            grid.innerHTML = dataset.map(item => `
+                <div class="data-card">
+                    <div class="card-id">#${item.id}</div>
+                    <div class="card-cat">${escapeHTML(item.category)}</div>
+                    <div class="card-content">
+                        <div class="code-block-wrapper">
+                            <code>${escapeHTML(item.payload)}</code>
+                            <button class="copy-btn" onclick="copyCode(this, \`${escapeJS(item.payload)}\`)">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 0110.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                        <div class="description-text">${escapeHTML(item.description)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Dedicated secure clipboard hook
+        function copyCode(buttonElement, codeString) {
+            navigator.clipboard.writeText(codeString).then(() => {
+                const textSpan = buttonElement.querySelector('span');
+                const svgContainer = buttonElement.querySelector('svg');
+                
+                buttonElement.classList.add('success');
+                textSpan.innerText = 'Copied!';
+                svgContainer.innerHTML = '<path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 111.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>';
+
+                setTimeout(() => {
+                    buttonElement.classList.remove('success');
+                    textSpan.innerText = 'Copy';
+                    svgContainer.innerHTML = '<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 0110.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>';
+                }, 1800);
+            });
+        }
+
+        // Live real-time query processor
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            const filtered = dataRecords.filter(item => 
+                item.category.toLowerCase().includes(query) || 
+                item.payload.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
+            );
+            renderGrid(filtered);
+        });
+
+        // Tab selection matrix modifier
+        function filterByTab(categoryKeyword, element) {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('searchInput').value = ''; 
+
+            if (categoryKeyword === 'all') {
+                renderGrid(dataRecords);
+            } else {
+                const filtered = dataRecords.filter(item => 
+                    item.category.toLowerCase().includes(categoryKeyword.toLowerCase())
+                );
+                renderGrid(filtered);
+            }
+        }
+
+        // Sanitization Layer: Prevents raw string evaluation issues
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        function escapeJS(str) {
+            return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadMatrix);
+    </script>
+</body>
+</html>
