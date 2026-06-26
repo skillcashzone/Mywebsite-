@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Mountain Sunrise",
+    "category": "Landscape",
+    "src": "https://picsum.photos",
+    "desc": "Early morning golden hour in the Alps."
+  },
+  {
+    "id": 2,
+    "title": "Urban Explorer",
+    "category": "Street",
+    "src": "https://picsum.photos",
+    "desc": "Rainy night reflections in Tokyo."
+  },
+  {
+    "id": 3,
+    "title": "Forest Path",
+    "category": "Nature",
+    "src": "https://picsum.photos",
+    "desc": "Misty walkway surrounded by redwood trees."
+  },
+  {
+    "id": 4,
+    "title": "Ocean Waves",
+    "category": "Landscape",
+    "src": "https://picsum.photos",
+    "desc": "Powerful waves crashing against coastal rocks."
+  }
+]
