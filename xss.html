@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Injection Framework Dashboard</title>
+    <title>Responsive Code Control Panel</title>
     <style>
-        /* --- CORE DESIGN ARCHITECTURE & TOKENS --- */
+        /* --- DESIGN FRAMEWORK --- */
         :root {
             --bg-main: #0d1117;
             --bg-card: #161b22;
             --border-muted: #30363d;
             --text-main: #c9d1d9;
             --text-bright: #f0f6fc;
-            --badge-blue: #58a6ff;
-            --badge-red: #ff7b72;
-            --badge-green: #56d364;
-            --badge-purple: #bc8cff;
-            --code-syntax: #ff7b72;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
             --syntax-bg: #090c10;
         }
 
@@ -24,285 +21,288 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            padding: 2rem 1rem;
-            line-height: 1.6;
+            padding: 1.5rem 1rem;
+            line-height: 1.5;
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Top Title Deck */
-        .dashboard-header {
-            border-bottom: 1px solid var(--border-muted);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .main-heading {
-            color: var(--text-bright);
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
-        .meta-container {
-            margin-top: 0.75rem;
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .meta-pill {
-            background: var(--bg-card);
-            border: 1px solid var(--border-muted);
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-
-        /* Search & Navigation Bar */
-        .search-wrapper {
+        header {
             margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 1rem;
         }
 
-        .search-field {
+        h1 {
+            color: var(--text-bright);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-top: 0.25rem;
+        }
+
+        /* --- CONTROL UTILITIES --- */
+        .search-box {
             width: 100%;
             background-color: var(--syntax-bg);
             border: 1px solid var(--border-muted);
-            padding: 0.8rem 1.2rem;
+            padding: 0.75rem 1rem;
             border-radius: 6px;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s;
         }
 
-        .search-field:focus {
-            border-color: var(--badge-blue);
+        .search-box:focus {
+            border-color: var(--accent-blue);
         }
 
-        /* Data Visualization Table */
-        .grid-wrapper {
+        /* --- DATA GRID LAYOUT --- */
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .data-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-muted);
             border-radius: 8px;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 60px 180px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .card-id {
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+
+        .card-cat {
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            text-align: center;
+            align-self: start;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* --- CODE & COPY COMPONENT --- */
+        .code-block-wrapper {
+            position: relative;
+            background-color: var(--syntax-bg);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
         }
 
-        .responsive-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .responsive-table th {
-            background-color: #1f242c;
-            color: var(--text-bright);
-            font-weight: 600;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-muted);
-            white-space: nowrap;
-        }
-
-        .responsive-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-muted);
-            vertical-align: top;
-        }
-
-        .responsive-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .responsive-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.015);
-        }
-
-        /* Columns Width Distribution */
-        .w-id { width: 70px; font-weight: 700; color: var(--badge-blue); }
-        .w-cat { width: 180px; }
-        .w-pay { width: 420px; }
-
-        /* Structural Badge Engine */
-        .category-tag {
-            display: inline-block;
-            padding: 0.15rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        .cat-tag { background: rgba(88, 166, 255, 0.12); color: var(--badge-blue); border: 1px solid rgba(88, 166, 255, 0.25); }
-        .cat-event { background: rgba(255, 123, 114, 0.12); color: var(--badge-red); border: 1px solid rgba(255, 123, 114, 0.25); }
-        .cat-vector { background: rgba(86, 211, 100, 0.12); color: var(--badge-green); border: 1px solid rgba(86, 211, 100, 0.25); }
-        .cat-escape { background: rgba(188, 140, 255, 0.12); color: var(--badge-purple); border: 1px solid rgba(188, 140, 255, 0.25); }
-        .cat-default { background: rgba(240, 246, 252, 0.08); color: var(--text-main); border: 1px solid var(--border-muted); }
-
-        /* Code Rendering Blocks */
         code {
-            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
-            background-color: var(--syntax-bg);
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
-            color: var(--code-syntax);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            padding: 1rem 3.5rem 1rem 1rem;
+            color: #ff7b72;
             display: block;
             white-space: pre-wrap;
             word-break: break-all;
-            user-select: all;
+            font-size: 0.9rem;
         }
 
-        .hindi-description {
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            background-color: #21262d;
+            border: 1px solid var(--border-muted);
+            color: var(--text-main);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+            color: var(--text-bright);
+        }
+
+        .copy-btn.success {
+            background-color: rgba(56, 185, 80, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .description-text {
+            font-size: 0.9rem;
             color: #8b949e;
-            font-size: 0.88rem;
-            text-align: justify;
+            line-height: 1.4;
         }
 
-        /* Information Notices */
-        .fallback-status {
+        .status-message {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem;
             color: #8b949e;
         }
 
-        .alert-error {
-            color: var(--badge-red);
+        /* --- MOBILE RESPONSIVE ENGINE --- */
+        @media (max-width: 768px) {
+            .data-card {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .card-id {
+                border-bottom: 1px solid var(--border-muted);
+                padding-bottom: 0.25rem;
+            }
+
+            .card-cat {
+                display: inline-block;
+                width: auto;
+            }
+            
+            code {
+                padding: 1rem 1rem 3rem 1rem;
+            }
+
+            .copy-btn {
+                top: auto;
+                bottom: 0.5rem;
+                right: 0.5rem;
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <header class="dashboard-header">
-            <h1 class="main-heading" id="titleField">Framework Target Analysis Sheet</h1>
-            <div class="meta-container">
-                <span class="meta-pill"><strong>Engine Mode:</strong> Structural Cross-Context Matrix</span>
-                <span class="meta-pill"><strong>Active Vectors:</strong> <span id="counterField">0</span> Elements Loaded</span>
-            </div>
+        <header>
+            <h1>Framework Dashboard</h1>
+            <div class="meta-info" id="countLabel">Loading elements...</div>
         </header>
 
-        <div class="search-wrapper">
-            <input type="text" id="searchFilter" class="search-field" placeholder="जाँचने के लिए श्रेणी, पेलोड सिंटैक्स या हिंदी विवरण खोजें...">
-        </div>
+        <input type="text" id="searchInput" class="search-box" placeholder="Category, syntax ya hindi description se filter karein...">
 
-        <main class="grid-wrapper">
-            <table class="responsive-table">
-                <thead>
-                    <tr>
-                        <th class="w-id">ID</th>
-                        <th class="w-cat">Category</th>
-                        <th class="w-pay">Syntax Framework</th>
-                        <th>Analytical Hindi Description</th>
-                    </tr>
-                </thead>
-                <tbody id="renderTarget">
-                    <tr>
-                        <td colspan="4" class="fallback-status">Initializing dynamic data streaming channels...</td>
-                    </tr>
-                </tbody>
-            </table>
+        <main class="grid-container" id="displayGrid">
+            <div class="status-message">Data array stream processing open...</div>
         </main>
     </div>
 
     <script>
-        let rawMatrixData = [];
+        let dataRecords = [];
 
-        // Dynamic JSON fetch system execution pipelines
-        async function fetchLocalMatrix() {
-            const renderTarget = document.getElementById('renderTarget');
+        // Fetch local database payload logic
+        async function loadMatrix() {
+            const grid = document.getElementById('displayGrid');
             try {
-                // payload.json ko stream pipeline me register karein
-                const networkResponse = await fetch('xss.json');
+                const response = await fetch('payload.json');
+                if (!response.ok) throw new Error("HTTP error: " + response.status);
                 
-                if (!networkResponse.ok) {
-                    throw new Error(`Execution error context status: ${networkResponse.status}`);
-                }
-                
-                const parseBuffer = await networkResponse.json();
-                rawMatrixData = parseBuffer;
-                
-                // Counter fields verification injection
-                document.getElementById('counterField').innerText = rawMatrixData.length;
-                evaluateDOMState(rawMatrixData);
-
-            } catch (systemException) {
-                console.error("Critical stream breakdown:", systemException);
-                renderTarget.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="fallback-status alert-error">
-                            <strong>सिस्टम त्रुटि (Data Load Error):</strong> 'payload.json' फ़ाइल लोड नहीं हो सकी। सुनिश्चित करें कि फ़ाइल का नाम सही है और आप इसे किसी Local Server (जैसे VS Code Live Server) पर चला रहे हैं।
-                        </td>
-                    </tr>`;
+                dataRecords = await response.json();
+                document.getElementById('countLabel').innerText = `${dataRecords.length} Active System Nodes Loaded`;
+                renderGrid(dataRecords);
+            } catch (err) {
+                grid.innerHTML = `<div class="status-message" style="color:#ff7b72;"><b>Error:</b> payload.json file nahi mili ya JSON syntax invalid hai.</div>`;
             }
         }
 
-        // Mapping validation engine logic groups directly to corresponding CSS class structures
-        function assignStructuralToken(categoryString) {
-            const normalNormalized = categoryString.toLowerCase();
-            if (normalNormalized.includes('tag')) return 'cat-tag';
-            if (normalNormalized.includes('event')) return 'cat-event';
-            if (normalNormalized.includes('vector') || normalNormalized.includes('iframe')) return 'cat-vector';
-            if (normalNormalized.includes('escape') || normalNormalized.includes('evasion') || normalNormalized.includes('obfuscation')) return 'cat-escape';
-            return 'cat-default';
-        }
-
-        // Primary execution algorithm to clean, format and append structural code modules to DOM grid
-        function evaluateDOMState(dataCollection) {
-            const renderTarget = document.getElementById('renderTarget');
-            
-            if (dataCollection.length === 0) {
-                renderTarget.innerHTML = `<tr><td colspan="4" class="fallback-status">खोजे गए कीवर्ड के लिए कोई संरचना नहीं मिली।</td></tr>`;
+        // Render cards dynamically
+        function renderGrid(dataset) {
+            const grid = document.getElementById('displayGrid');
+            if(dataset.length === 0) {
+                grid.innerHTML = `<div class="status-message">Koi data match nahi hua.</div>`;
                 return;
             }
 
-            renderTarget.innerHTML = dataCollection.map(record => `
-                <tr>
-                    <td class="w-id">${record.id}</td>
-                    <td class="w-cat"><span class="category-tag ${assignStructuralToken(record.category)}">${record.category}</span></td>
-                    <td class="w-pay"><code>${escapeMetaTokens(record.payload)}</code></td>
-                    <td class="hindi-description">${escapeMetaTokens(record.description)}</td>
-                </tr>
+            grid.innerHTML = dataset.map(item => `
+                <div class="data-card">
+                    <div class="card-id">#${item.id}</div>
+                    <div class="card-cat">${escapeHTML(item.category)}</div>
+                    <div class="card-content">
+                        <div class="code-block-wrapper">
+                            <code>${escapeHTML(item.payload)}</code>
+                            <button class="copy-btn" onclick="copyCode(this, \`${escapeJS(item.payload)}\`)">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 0110.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                        <div class="description-text">${escapeHTML(item.description)}</div>
+                    </div>
+                </div>
             `).join('');
         }
 
-        // Sanitization Layer: Prevents raw string evaluation issues over input sinks
-        function escapeMetaTokens(rawString) {
-            return rawString.replace(/[&<>'"]/g, 
-                entityKey => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    "'": '&#39;',
-                    '"': '&quot;'
-                }[entityKey] || entityKey)
-            );
+        // Clip-board clipboard operations engine
+        function copyCode(buttonElement, codeString) {
+            navigator.clipboard.writeText(codeString).then(() => {
+                const textSpan = buttonElement.querySelector('span');
+                const svgContainer = buttonElement.querySelector('svg');
+                
+                buttonElement.classList.add('success');
+                textSpan.innerText = 'Copied!';
+                svgContainer.innerHTML = '<path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 111.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>';
+
+                setTimeout(() => {
+                    buttonElement.classList.remove('success');
+                    textSpan.innerText = 'Copy';
+                    svgContainer.innerHTML = '<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 0110.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00$.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>';
+                }, 2000);
+            });
         }
 
-        // Event monitoring loop tracking multi-parameter target adjustments
-        document.getElementById('searchFilter').addEventListener('input', (eventState) => {
-            const userFilterQuery = eventState.target.value.toLowerCase();
-            
-            const processedResultSet = rawMatrixData.filter(record => 
-                record.category.toLowerCase().includes(userFilterQuery) || 
-                record.payload.toLowerCase().includes(userFilterQuery) || 
-                record.description.toLowerCase().includes(userFilterQuery)
+        // Sanitization Layer
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = dataRecords.filter(item => 
+                item.category.toLowerCase().includes(query) || 
+                item.payload.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
             );
-            
-            evaluateDOMState(processedResultSet);
+            renderGrid(filtered);
         });
 
-        // Initialize execution stack safely when structural tree components render complete
-        window.addEventListener('DOMContentLoaded', fetchLocalMatrix);
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        function escapeJS(str) {
+            return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadMatrix);
     </script>
 </body>
 </html>
